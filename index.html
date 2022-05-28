@@ -1,0 +1,136 @@
+<html>
+
+<head>
+    <meta charset="UFT-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rancho&effect=shadow-multiple">
+    <style type="text/css">
+        #header {
+            background: rgba(0, 0, 0, 0.5);
+            /*allow header title to be more readable*/
+            margin: 0px;
+        }
+
+        .header-title {
+
+            text-align: center;
+            font-family: "Rancho";
+            /*google font*/
+            font-size: 40px;
+        }
+
+        .table_head {
+            background: rgba(0, 0, 0, 0.1);
+            text-align: center;
+
+        }
+
+        .table_body {
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            border: 1px solid #FF0000;
+        }
+
+        table td {
+            border: 1px solid #FF0000;
+        }
+
+        table th {
+
+            border: 1px solid #FF0000;
+        }
+
+        .bgcolor {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+    <title>PSI details</title>
+</head>
+
+<body>
+    <div style="height: 100vh">
+        <div id="header">
+            <h1 class="header-title" id="last-updated">
+                <br>
+                </br>
+            </h1>
+        </div>
+        <div class="container">
+            <table class="table table-stripped">
+                <thread>
+                    <tr class="table_head">
+                        <th>Metric</th>
+                        <th>National</th>
+                        <th>Central</th>
+                        <th>West</th>
+                        <th>East</th>
+                        <th>North</th>
+                        <th>South</th>
+                    </tr>
+                </thread>
+                <tbody class="table_body" id="data">
+                </tbody>
+            </table>
+        </div>
+        <script>
+            fetch("https://api.data.gov.sg/v1/environment/psi").then(
+                res => {
+
+                    res.json().then(
+                        data => {
+                            
+                            //console.log(data);
+                            var symbol = "%";
+                            var items = data["items"][0]["readings"];
+                            var temp = "";
+
+                                // ----start for loop
+                        
+                                for (var i in items) {
+                                    var national = items[i]["national"];
+                                    var central = items[i]["central"];
+                                    var west = items[i]["west"];
+                                    var east = items[i]["east"];
+                                    var north = items[i]["north"];
+                                    var south = items[i].south;
+                                    
+                                    temp += "<tr>" + "<td>" + i + "</td>";
+                                    temp += "<td>" + national + "</td>";
+                                    temp += "<td>" + central + "</td>";
+                                    temp += "<td>" + west + "</td>";
+                                    temp += "<td>" + east + "</td>";
+                                    temp += "<td>" + north + "</td>";
+                                    temp += "<td>" + south + "</td>" + "</tr>";
+                                        }
+                                    
+                                        document.getElementById("data").innerHTML = temp;
+                                        var date = new Date();
+                                        var dateTime = date.toLocaleString('en-GB');
+                                        document.getElementById("last-updated").innerHTML = "Last updated " + dateTime;
+
+                                    })
+                                
+
+
+                            }
+                    
+                    )
+                
+            
+
+
+
+
+        </script>
+
+
+</body>
+
+
+
+</html>
